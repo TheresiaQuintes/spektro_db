@@ -1,9 +1,6 @@
 from models.base import TimeStampedModel
-from sqlalchemy.orm import validates
-from models.allowed_values import Solvents, Devices, FrequencyBands
-from helper_functions import validate_enum
 
-from sqlalchemy import Column, Integer, ForeignKey, String, Float, Enum, Date, Text, Boolean
+from sqlalchemy import Column, Integer, ForeignKey, String, Float,  Date, Text, Boolean
 from sqlalchemy.orm import Relationship
 
 
@@ -19,7 +16,7 @@ class Measurement(TimeStampedModel):
     molecule = Relationship("Molecule", back_populates="measurements")
 
     # method
-    method = Column(String(20), nullable=False)
+    method = Column(String(64), nullable=False)
     __mapper_args__ = {
         "polymorphic_on": method,
         "polymorphic_identity": "base",
@@ -27,28 +24,20 @@ class Measurement(TimeStampedModel):
 
     # metadata
     temperature = Column(Float, nullable=False)
-    solvent = Column(Enum(Solvents), nullable=False)
+    solvent = Column(String(128), nullable=False)
     concentration = Column(String(512))
     date = Column(Date, nullable=False)
     location = Column(String(512))
-    device = Column(Enum(Devices))
+    device = Column(String(128))
     series = Column(String(512))
     path = Column(Text, nullable=False, unique=True)
     corrected = Column(Boolean, nullable=False)
     evaluated = Column(Boolean, nullable=False)
 
-    @validates("solvent")
-    def validate_solvent(self, key, value):
-        return validate_enum(value, Solvents, key)
-
-    @validates("device")
-    def validate_device(self, key, value):
-        return validate_enum(value, Devices, key)
 
     def __repr__(self):
 
         return f"({self.__class__.__name__}: {self.molecule.name}, {self.method}, {self.temperature} K)"
-
 
 
 
@@ -60,14 +49,38 @@ class TREPR(Measurement):
 
     __mapper_args__ = {"polymorphic_identity": "trepr",}
 
-    frequency_band = Column(Enum(FrequencyBands), nullable=False)
+    frequency_band = Column(String(32), nullable=False)
     excitation_wl = Column(Float, nullable=False)
     excitation_energy = Column(Float)
     attenuation = Column(Float, nullable=False)
     number_of_scans = Column(Integer)
     repetitionrate = Column(Float)
-    mode = Column(String(256))
+    mode = Column(String(128))
 
-    @validates("frequency_band")
-    def validate_frequency_band(self, key, value):
-        return validate_enum(value, FrequencyBands, key)
+
+
+class CWEPR(Measurement):
+    __tablename__ = "cwepr"
+
+    id = Column(Integer, ForeignKey("measurements.id", ondelete="CASCADE"),
+                primary_key=True)
+
+    __mapper_args__ = {"polymorphic_identity": "cwepr",}
+
+    frequency_band = Column(String(32), nullable=False)
+    attenuation = Column(Float, nullable=False)
+
+
+
+class PulseEPR(Measurement):
+    __tablename__ = "pulse_epr"
+
+    id = Column(Integer, ForeignKey("measurements.id", ondelete="CASCADE"),
+                primary_key=True)
+
+    __mapper_args__ = {"polymorphic_identity": "pulse_epr",}
+
+    pulse_experiment = Column(String(32), nullable=False)
+    frequency_band = Column(String(32))
+
+    dsc_path = Column(Text, nullable=False, unique=True)

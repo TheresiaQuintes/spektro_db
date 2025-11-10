@@ -10,11 +10,21 @@ class Devices(str, eEnum):
     elexsys = "ELEXSYS"
     emx_nano = "EMXnano"
 
+
 class FrequencyBands(str, eEnum):
+    leer = ""
     s = "S"
     x = "X"
     q = "Q"
     w = "W"
+
+
+class PulseExperiments(str, eEnum):
+    peanut = "PEANUT"
+    peldor = "PELDOR"
+    tn = "TN"
+    saturation_recovery = "SR"
+
 
 class Chromophores(str, eEnum):
     bdp0 = "BDP0"
