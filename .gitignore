@@ -140,6 +140,7 @@ desktop.ini
 *.db
 *.sqlite
 *.sqlite3
+data/
 
 # Logs and temporary files
 *.log
