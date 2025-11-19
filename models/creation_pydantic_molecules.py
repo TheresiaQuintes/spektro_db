@@ -1,7 +1,7 @@
 from pydantic import BaseModel, ConfigDict, field_validator, computed_field
 from typing import Type, Optional
 import models.molecules as mol
-import models.allowed_values as av
+import user.allowed_values as av
 
 
 class MoleculeModel(BaseModel):

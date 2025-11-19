@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, ConfigDict, field_validator
 from typing import Type, Optional
 import models.measurements as ms
-import models.allowed_values as av
+import user.allowed_values as av
 import datetime
 
 class MeasurementModel(BaseModel):

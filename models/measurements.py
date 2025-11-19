@@ -3,7 +3,7 @@ from models.base import TimeStampedModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Float,  Date, Text, Boolean
 from sqlalchemy.orm import Relationship
 from sqlalchemy.sql.sqltypes import Enum as SAEnum
-from models.allowed_values import Devices, FrequencyBands, PulseExperiments, Solvents, Names
+from user.allowed_values import Devices, FrequencyBands, PulseExperiments, Solvents, Names
 
 
 

@@ -2,7 +2,7 @@ from models.base import TimeStampedModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Text
 from sqlalchemy.orm import Relationship
 from sqlalchemy.sql.sqltypes import Enum as SAEnum
-from models.allowed_values import Chromophores, Doublets, Linker, Radicals
+from user.allowed_values import Chromophores, Doublets, Linker, Radicals
 
 
 class Molecule(TimeStampedModel):
