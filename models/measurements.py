@@ -3,7 +3,7 @@ from models.base import TimeStampedModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Float,  Date, Text, Boolean
 from sqlalchemy.orm import Relationship
 from sqlalchemy.sql.sqltypes import Enum as SAEnum
-from models.allowed_values import Devices, FrequencyBands, PulseExperiments, Solvents
+from models.allowed_values import Devices, FrequencyBands, PulseExperiments, Solvents, Names
 
 
 
@@ -29,6 +29,7 @@ class Measurement(TimeStampedModel):
     solvent = Column(SAEnum(Solvents), nullable=False)
     concentration = Column(String(512))
     date = Column(Date, nullable=False)
+    measured_by = Column(SAEnum(Names), nullable=False)
     location = Column(String(512))
     device = Column(SAEnum(Devices))
     series = Column(String(512))

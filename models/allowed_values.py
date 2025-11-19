@@ -1,5 +1,11 @@
 from enum import Enum
 
+class Names(str, Enum):
+    richert = "richert"
+    maylaender = "maylaender"
+    thielert = "thielert"
+
+
 class Solvents(str, Enum):
     toluene = "toluene"
     water = "water"

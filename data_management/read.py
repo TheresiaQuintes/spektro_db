@@ -1,5 +1,4 @@
 import h5py
-import numpy as np
 
 class H5Object:
     def __init__(self, h5node, writable=False, auto_flush=True):
@@ -72,6 +71,8 @@ class H5Object:
         # Attribute speichern
         for key in self._attrs_keys:
             value = getattr(self, key)
+            if key in self._node.attrs:
+                del self._node.attrs[key]
             self._node.attrs[key] = value
 
         # Datasets speichern

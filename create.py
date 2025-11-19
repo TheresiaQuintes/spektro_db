@@ -89,6 +89,7 @@ class MeasurementModel(BaseModel):
     solvent: av.Solvents
     concentration: Optional[str]=None
     date: datetime.date
+    measured_by : av.Names
     location: Optional[str]=None
     device: Optional[av.Devices]=None
     series: Optional[str]=None
