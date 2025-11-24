@@ -1,15 +1,16 @@
-import os
 import sqlalchemy as alc
 import sqlalchemy.orm as orm
 import json
 from pathlib import Path
 
 
+# read information from user-defaults-file
 defaults_path = Path(__file__).resolve().parent / "user" / "defaults.json"
 
 with open(defaults_path, "r") as f:
     defaults = json.load(f)
 
+# set path defintions
 BASE_PATH = Path(defaults["base_path"])
 MEASUREMENTS_PATH = Path("data")
 MOLECULES_PATH = Path("molecules")
@@ -26,7 +27,7 @@ Session = orm.scoped_session(
         )
     )
 
-# parameter fürs erstellen neuer engines (im Fall von sqlite)
+# parameter fo the initalisation of new sqlite engines
 @alc.event.listens_for(alc.Engine, "connect")
 def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor = dbapi_connection.cursor()

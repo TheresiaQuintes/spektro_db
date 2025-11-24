@@ -7,6 +7,8 @@ from sqlalchemy import inspect
 from sqlalchemy.sql.sqltypes import Enum as SAEnum
 import datetime
 
+
+
 def safe_commit(session):
     try:
         session.commit()
@@ -21,6 +23,18 @@ def safe_flush(session):
         session.rollback()
         print("❌ Fehler beim Flush:", e)
 
+from typing import get_origin, get_args, Union
+
+def type_name_for_doc(typ):
+    origin = get_origin(typ)
+    # Optional[T] ist Union[T, NoneType]
+    if origin is Union:
+        args = [a for a in get_args(typ) if a is not type(None)]
+        if args:
+            t = args[0]
+            return t.__name__ if hasattr(t, "__name__") else str(t)
+    # normale Typen
+    return typ.__name__ if hasattr(typ, "__name__") else str(typ)
 
 def make_filter_model(model: Type[DeclarativeMeta]) -> Type[BaseModel]:
     """
@@ -58,7 +72,42 @@ def make_filter_model(model: Type[DeclarativeMeta]) -> Type[BaseModel]:
         **fields,
     )
 
-    FilterModel.__doc__ = f"Pydantic-Filtermodell für {model.__name__}"
+   # --- Docstring ---
+    operator_lines = [
+    " gt: greater than",
+    " lt: less than",
+    " ge: greater than or equal to",
+    " le: less than or equal to",
+    " ne: not equal",
+    " like: SQL LIKE pattern match",
+    " ilike: case-insensitive LIKE",
+    " contains: substring match (for strings)",
+    "",
+    " Usage: append operator to the field name, e.g. 'temperature__gt=20'."
+    ]
+    operator_explanation = "; ".join(operator_lines)
+
+
+    # Zeilenweise Felder + Typ
+    field_lines = "\n".join(
+        f"- {fname}: {type_name_for_doc(typ)}"
+        for fname, (typ, _) in fields.items()
+    )
+
+    FilterModel.__doc__ = f"""
+    Pydantic filter model for {model.__name__}.
+
+    The following operators can (but do not have to) be applied to the
+    attributes:
+
+    {operator_explanation}
+
+    The following fields can be selected:
+
+    {field_lines}
+    """
+    FilterModel.__name__ = name
+    FilterModel.__qualname__ = name
     FilterModel.model = model
     return FilterModel
 
@@ -108,7 +157,23 @@ def make_ordering_model(model: Type[DeclarativeMeta]) -> Type[BaseModel]:
     validate_assignment=True
         ),
     )
-    OrderingModel.__doc__ = f"Ordering-Modell für {model.__name__}"
+
+    # Zeilenweise Felder + Typ
+    field_lines = "\n".join(
+        f"- {fname}: {type_name_for_doc(typ)}"
+        for fname, (typ, _) in fields.items()
+    )
+
+    OrderingModel.__doc__ = f"""
+    Pydantic ordering model for {model.__name__}.
+
+    Choose "asc" (for ascending ordering) or "desc" (for descending ordering)
+    for each attribute that shall be included in the ordering of the results.
+
+    The following fields can be selected:
+
+    {field_lines}
+    """
 
     return OrderingModel
 
