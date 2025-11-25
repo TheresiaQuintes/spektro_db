@@ -3,6 +3,8 @@ import h5py
 import shutil
 from data_management.data_loader import load
 
+""" If new SUPPORTED_FORMATS are added, ad them also to the functions
+    new_raw_data_to_folder and new_raw_data_to_hdf5."""
 SUPPORTED_FORMATS = {
     "bruker_bes3t": {".dsc", ".dta"},
 }

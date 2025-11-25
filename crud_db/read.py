@@ -35,7 +35,7 @@ for name, model in model_mapping_filters.items():
     filters[name] = f
 
 globals().update(filters)
-filter_model = Union[tuple(filters.values())]
+filter_model_type = Union[tuple(filters.values())]
 
 model_mapping_ordering = {
     "MeasurementOrdering": ms.Measurement,
@@ -56,7 +56,7 @@ for name, model in model_mapping_ordering.items():
     ordering[name] = f
 
 globals().update(ordering)
-ordering_model = Union[tuple(ordering.values())]
+ordering_model_type = Union[tuple(ordering.values())]
 
 
 
@@ -64,7 +64,8 @@ ordering_model = Union[tuple(ordering.values())]
 """ ***** Function for running queries ***** """
 
 
-def run_query(filters: filter_model, ordering: ordering_model=None) -> list:
+def run_query(filters: filter_model_type, ordering: ordering_model_type=None
+              ) -> list:
     """
     Query the database. The table is chosen from the filter model. All
     filters and the ordering is organised in filter and ordering models.

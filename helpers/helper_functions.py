@@ -106,8 +106,7 @@ def make_filter_model(model: Type[DeclarativeMeta]) -> Type[BaseModel]:
 
     {field_lines}
     """
-    FilterModel.__name__ = name
-    FilterModel.__qualname__ = name
+
     FilterModel.model = model
     return FilterModel
 
@@ -212,6 +211,21 @@ def make_update_model(
         **fields,
     )
 
-    UpdateModel.__doc__ = f"Pydantic-Updatemodell für {model.__name__}"
+   # --- Docstring ---
+
+    # Zeilenweise Felder + Typ
+    field_lines = "\n".join(
+        f"- {fname}: {type_name_for_doc(typ)}"
+        for fname, (typ, _) in fields.items()
+    )
+
+    UpdateModel.__doc__ = f"""
+    Pydantic update model for {model.__name__}. The fields that are set
+    are the parameters that shall be updateted in the database.
+
+    The following fields can be selected:
+
+    {field_lines}
+    """
     UpdateModel.model = model  # optional, um das SQLAlchemy-Modell zu referenzieren
     return UpdateModel

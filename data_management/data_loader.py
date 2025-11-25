@@ -605,5 +605,3 @@ def load(full_base_name: Path, file_extension: str, scaling: str) -> tuple:
     parameters = parse_field_params(parameters)
 
     return data, abscissa, parameters
-
-#data, x, params = load(Path("/home/quintes/Downloads/00_Q_trESR_TTM-Cz-9An_80K_600nm_0pt26mJ_34dB_gain1_0"), "DSC", "n")
