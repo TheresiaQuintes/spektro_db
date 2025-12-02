@@ -22,8 +22,7 @@ molecule_model_alc = TypeVar("models.molecules.Measurement", bound=Molecule)
 def create_new_measurement(data: measurement_model_pyd
                            ) -> measurement_model_alc:
     """
-    Create a new database entry for the measurement table from a object of
-    the class models.creation_pydantic_measurement.MeasurementModel
+    Create a new database entry for the measurement table.
 
     The entry is created and the measurement_path is set automatically from the
     MEASUREMTS_PATH and the measurement-id.
@@ -71,8 +70,7 @@ def create_new_measurement(data: measurement_model_pyd
 
 def create_new_molecule(data: molecule_model_pyd) -> molecule_model_alc:
     """
-    Create a new database entry for the molecule table from a object of
-    the class models.creation_pydantic_molecules.MoleculeModel.
+    Create a new database entry for the molecule table.
 
     The entry is created and the path for the structural formula is set
     automatically from the MEASUREMTS_PATH and the molecule-id.

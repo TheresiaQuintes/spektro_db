@@ -94,7 +94,7 @@ class Molecule(TimeStampedModel):
         return f"({self.__class__.__name__}: {self.name}, {self.id})"
 
 
-class Single(Molecule):
+class SingleMolecule(Molecule):
     """
     Single-molecule entry in the molecular hierarchy.
 
@@ -106,7 +106,8 @@ class Single(Molecule):
 
     The model participates in the polymorphic SQLAlchemy hierarchy using the
     ``"single"`` ``polymorphic_identity``. Any row in ``molecules`` where
-    ``group='single'`` will therefore be loaded as a :class:`Single` instance.
+    ``group='single'`` will therefore be loaded as a :class:`SingleMolecule`
+    instance.
 
     Attributes
     ----------
@@ -125,14 +126,14 @@ class Single(Molecule):
       inheritance.
     * ``additional_info`` is optional and may remain empty.
     * All molecules that do not fit to an other class should be from
-      :class:`Single`.
+      :class:`SingleMolecule`.
 
     Examples
     --------
     Creating a single molecule:
 
-    >>> from models import Single
-    >>> s = Single(
+    >>> from models import SingleMolecule
+    >>> s = SingleMolecule(
     ...     name="Anthracene",
     ...     molecular_formula="C14H10",
     ...     structural_formula="...",
@@ -146,7 +147,7 @@ class Single(Molecule):
 
     >>> mol = session.query(Molecule).filter_by(id=s.id).one()
     >>> type(mol)
-    <class 'models.Single'>
+    <class 'models.SingleMolecule'>
     """
     __tablename__ = "single"
 

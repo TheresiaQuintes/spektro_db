@@ -14,6 +14,7 @@ Automatic creation of the filter and ordering models using the
 helper_functions module. The functions for the creation include an automatic
 documentation for the classes. To add new classes add them to both of the
 model_mapping-dictionaries.
+
 """
 
 model_mapping_filters = {
@@ -22,7 +23,7 @@ model_mapping_filters = {
     "CWEPRFilter": ms.CWEPR,
     "PulseEPRFilter": ms.PulseEPR,
     "MoleculeFilter": mol.Molecule,
-    "SingleMoleculeFilter": mol.Single,
+    "SingleMoleculeFilter": mol.SingleMolecule,
     "RPFilter": mol.RP,
     "TDPFilter": mol.TDP,
     "TTPFilter": mol.TTP,
@@ -43,7 +44,7 @@ model_mapping_ordering = {
     "CWEPROrdering": ms.CWEPR,
     "PulseEPROrdering": ms.PulseEPR,
     "MoleculeOrdering": mol.Molecule,
-    "SingleMoleculeOrdering": mol.Single,
+    "SingleMoleculeOrdering": mol.SingleMolecule,
     "RPOrdering": mol.RP,
     "TDPOrdering": mol.TDP,
     "TTPOrdering": mol.TTP,
@@ -61,7 +62,12 @@ ordering_model_type = Union[tuple(ordering.values())]
 
 
 # %%
-""" ***** Function for running queries ***** """
+"""
+****************************************
+***** Function for running queries *****
+****************************************
+
+"""
 
 
 def run_query(filters: filter_model_type, ordering: ordering_model_type=None

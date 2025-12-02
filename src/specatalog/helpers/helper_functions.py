@@ -8,6 +8,7 @@ from pydantic import BaseModel, create_model, ConfigDict
 from typing import Any, Optional, Literal, get_origin, get_args, Union
 from specatalog.models.base import TimeStampedModel
 import datetime
+import textwrap
 
 def safe_commit(session: Session) -> bool:
     """
@@ -188,28 +189,34 @@ def make_filter_model(model: TimeStampedModel) -> BaseModel:
     " like: SQL LIKE pattern match",
     " ilike: case-insensitive LIKE",
     " contains: substring match (for strings)",
-    "",
-    " Usage: append operator to the field name, e.g. 'temperature__gt=20'."
     ]
-    operator_explanation = "; ".join(operator_lines)
+    operator_explanation = "".join(
+        f"\n\t\t- {op}"
+        for op in operator_lines
+    )
 
-    field_lines = "\n".join(
-        f"- {fname}: {_type_name_for_doc(typ)}"
+
+    field_lines = "".join(
+        f"\n\t\t- {fname}: {_type_name_for_doc(typ)}"
         for fname, (typ, _) in fields.items()
     )  # field_name + type
 
-    FilterModel.__doc__ = f"""
+    FilterModel.__doc__ = textwrap.dedent(
+    f"""
     Pydantic filter model for {model.__name__}.
 
     The following operators can (but do not have to) be applied to the
-    attributes:
+    attributes by appending the operator to the field name, e.g.
+    temperature__gt=20 (-> temperature > 20):
 
     {operator_explanation}
 
     The following fields can be selected:
 
     {field_lines}
+
     """
+    )
 
     FilterModel.model = model  # add the original model to the FilterModel
     return FilterModel
@@ -255,12 +262,13 @@ def make_ordering_model(model: TimeStampedModel) -> BaseModel:
     )
 
     # *** create docstring ***
-    field_lines = "\n".join(
-        f"- {fname}: {_type_name_for_doc(typ)}"
+    field_lines = "".join(
+        f"\n\t\t- {fname}: {_type_name_for_doc(typ)}"
         for fname, (typ, _) in fields.items()
     )
 
-    OrderingModel.__doc__ = f"""
+    OrderingModel.__doc__ = textwrap.dedent(
+    f"""
     Pydantic ordering model for {model.__name__}.
 
     Choose "asc" (for ascending ordering) or "desc" (for descending ordering)
@@ -269,7 +277,8 @@ def make_ordering_model(model: TimeStampedModel) -> BaseModel:
     The following fields can be selected:
 
     {field_lines}
-    """
+
+    """)
 
     return OrderingModel
 
@@ -334,19 +343,21 @@ def make_update_model(model: TimeStampedModel) -> BaseModel:
 
    # *** create docstrin ***
 
-    field_lines = "\n".join(
-        f"- {fname}: {_type_name_for_doc(typ)}"
+    field_lines = "".join(
+        f"\n\t\t- {fname}: {_type_name_for_doc(typ)}"
         for fname, (typ, _) in fields.items()
     )
 
-    UpdateModel.__doc__ = f"""
+    UpdateModel.__doc__ = textwrap.dedent(
+    f"""
     Pydantic update model for {model.__name__}. The fields that are set
     are the parameters that shall be updateted in the database.
 
     The following fields can be selected:
 
     {field_lines}
-    """
+
+    """)
 
     UpdateModel.model = model  # reference SQLA-model
     return UpdateModel

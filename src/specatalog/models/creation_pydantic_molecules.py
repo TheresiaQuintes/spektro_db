@@ -29,16 +29,16 @@ class MoleculeModel(BaseModel):
 
 class SingleMoleculeModel(MoleculeModel):
     """
-    Pydantic model for creating new :class:`mol.Single` molecules.
+    Pydantic model for creating new :class:`mol.SingleMolecule` molecules.
 
     This subclass of :class:`MoleculeModel` adds fields specific to single-
     molecule entries. The ``model_class`` attribute is fixed to
-    :class:`mol.Single` and cannot be changed.
+    :class:`mol.SingleMolecule` and cannot be changed.
 
     Attributes
     ----------
     model_class : Type
-        Always set to :class:`mol.Single`. Attempting to assign a different
+        Always set to :class:`mol.SingleMolecule`. Attempting to assign a different
         class raises a validation error.
     name : str
         Human-readable name of the molecule. Must be unique.
@@ -46,10 +46,10 @@ class SingleMoleculeModel(MoleculeModel):
         Optional free-text field with supplementary information.
 
     """
-    model_class: Type=mol.Single
+    model_class: Type=mol.SingleMolecule
     @field_validator("model_class")
     def check_grp(cls, v):
-        if v is not mol.Single:
+        if v is not mol.SingleMolecule:
             raise ValueError("model_class darf nicht geändert werden")
         return v
 

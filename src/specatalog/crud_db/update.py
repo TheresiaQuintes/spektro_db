@@ -14,6 +14,7 @@ Automatic creation of the update model using the
 helper_functions module. The functions for the creation include an automatic
 documentation for the classes. To add new classes add them to the
 model_mapping-dictionariy.
+
 """
 
 model_mapping_update = {
@@ -22,7 +23,7 @@ model_mapping_update = {
     "CWEPRUpdate": ms.CWEPR,
     "PulseEPRUpdate": ms.PulseEPR,
     "MoleculeUpdate": mol.Molecule,
-    "SingleMoleculeUpdate": mol.Single,
+    "SingleMoleculeUpdate": mol.SingleMolecule,
     "RPUpdate": mol.RP,
     "TDPUpdate": mol.TDP,
     "TTPUpdate": mol.TTP,
@@ -32,6 +33,7 @@ updates = {}
 for name, model in model_mapping_update.items():
     f = hf.make_update_model(model)
     f.__module__ = __name__
+    f.__name__ = name
     updates[name] = f
 
 globals().update(updates)
@@ -39,7 +41,12 @@ update_model_type = Union[tuple(updates.values())]
 
 
 # %%
-""" ***** Functions for updating the database ***** """
+"""
+***********************************************
+***** Functions for updating the database *****
+***********************************************
+
+"""
 
 def update_model(entry: TimeStampedModel, update_data: update_model_type):
     """
