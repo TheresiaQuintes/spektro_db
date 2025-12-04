@@ -14,7 +14,8 @@ This is a package to organise an archive of experimental data.
 .. toctree::
    :maxdepth: 2
    :caption: Tutorial
-
+   
+   tutorial_structure
    tutorial_molecules
    tutorial_measurements
    tutorial_hdf5object
