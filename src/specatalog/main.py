@@ -2,16 +2,19 @@ import sqlalchemy as alc
 import sqlalchemy.orm as orm
 import json
 from pathlib import Path
+import shutil
+from importlib.resources import files
 
+home_defaults = Path.home() / ".specatalog" / "defaults.json"
+if not home_defaults.exists():
+    home_defaults.parent.mkdir(exist_ok=True)
+    shutil.copy(files("specatalog.user") / "defaults.json", home_defaults)
 
-# read information from user-defaults-file
-defaults_path = Path(__file__).resolve().parent / ".." / ".." / "user" / "defaults.json"
-
-with open(defaults_path, "r") as f:
+with home_defaults.open("r") as f:
     defaults = json.load(f)
 
 # set path defintions
-BASE_PATH = Path(defaults["base_path"])
+BASE_PATH = Path(defaults["base_path"]).resolve()
 MEASUREMENTS_PATH = Path("data")
 MOLECULES_PATH = Path("molecules")
 

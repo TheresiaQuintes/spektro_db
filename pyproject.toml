@@ -1,0 +1,33 @@
+[project]
+name = "specatalog"
+version = "1.0"
+description = "Tools to archive spectral data."
+authors = [
+  { name = "Theresia Quintes", email = "theresia.quintes@physchem.uni-freiburg.de" }
+]
+license = { text = "GPL-3.0" }
+requires-python = ">=3.10"
+dependencies = [
+  "h5py~=3.0",
+  "numpy>=1.20",
+  "sqlalchemy~=2.0",
+  "pydantic~=2.12",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["specatalog*"]
+
+[tool.setuptools.package-data]
+specatalog = ["user/*.json"]
+
+[project.scripts]
+specatalog-welcome = "specatalog.cli:print_welcome"
+specatalog-init-db = "specatalog.helpers.create_database:specatalog_init_db"

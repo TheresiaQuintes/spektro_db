@@ -4,11 +4,7 @@ import sys
 from pathlib import Path
 
 CURRENT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = CURRENT_DIR / ".." / ".."
-
-
-# specatalog in den Python-Pfad einfügen
-sys.path.insert(0, str(PROJECT_ROOT))
+PROJECT_ROOT = (CURRENT_DIR / ".." / "..").resolve()
 
 
 # create archive directory
@@ -50,6 +46,13 @@ def create_database():
 
 
 
-if __name__ == "__main__":
-    create_archive_directory()
-    create_database()
+def specatalog_init_db():
+    from specatalog.main import BASE_PATH
+    exist = input(f"Does the archive and database already exist at {BASE_PATH}? y/n?")
+
+    if exist == "n":
+        create_archive_directory()
+        create_database()
+
+    else:
+        print("No new archive created.")
