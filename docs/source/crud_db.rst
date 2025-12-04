@@ -1,7 +1,7 @@
 crud_db
 =======
 
-The crud_db-package provides modules for the manipulation of the database. This includes Creation, Read, Update and Deletion.
+The crud_db-package provides modules for the manipulation of the database. This includes creation, reading, update and deletion.
 
 
 create
