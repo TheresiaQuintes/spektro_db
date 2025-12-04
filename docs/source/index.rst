@@ -1,6 +1,9 @@
 Welcome to specatalogs documentation!
 =====================================
 
+This is a package to organise an archive of experimental data.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Getting Started

@@ -18,7 +18,9 @@ echo "🗑 Removing old HTML files..."
 git rm -rf .
 
 echo "📂 Copying new HTML files..."
-cp -r docs/build/html/* .
+cp -r docs/build/html/_static .
+cp -r docs/build/html/_sources .
+cp docs/build/html/*.html .
 
 # Optional: alte source-Ordner entfernen
 rm -rf docs/ src/
