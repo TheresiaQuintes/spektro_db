@@ -1,7 +1,7 @@
 data_management
 ===============
 
-b
+The package data_management provides modules for the interaction with the datafiles stored in the archive. The module measurement_management provides CRUD-Functions for the archive, while the hdf5_reader module can be used for reading and updating the measurement.h5-files.
 
 
 measurement_management
