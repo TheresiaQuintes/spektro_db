@@ -1,7 +1,7 @@
 models
 ======
 
-b
+The package models includes all modules that describe the SQLAlchemy classes for the tables in the database and the Pydantic-classes that are used for the creation of new entries.
 
 
 base

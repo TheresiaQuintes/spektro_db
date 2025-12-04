@@ -1,7 +1,7 @@
 helpers
 =======
 
-b
+The package helpers contains some modules that fulfill necessary tasks so that specatalog works properly. Only the module helper_functions is could be interesting for the user, while the other modules are only used internally.
 
 helper_functions
 ----------------
